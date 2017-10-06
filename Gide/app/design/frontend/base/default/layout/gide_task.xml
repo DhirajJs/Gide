@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+    <handler_jsonsnippet>
+        <reference name="before_body_end">
+            <block type="gide_task/jsonSnippet" name="gide_task_jsonSnippet" as="gide_task_jsonSnippet" template="gide/task/snippet.phtml" />
+        </reference>
+    </handler_jsonsnippet>
+</layout>

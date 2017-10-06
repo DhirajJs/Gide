@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Gide_Task>
+            <version>0.0.1</version>
+        </Gide_Task>
+    </modules>
+    <global>
+        <models>
+            <gide_task>
+                <class>Gide_Task_Model</class>
+            </gide_task>
+        </models>
+        <blocks>
+            <gide_task>
+                <class>Gide_Task_Block</class>
+            </gide_task>
+        </blocks>
+        <events>
+            <controller_action_layout_generate_xml_before>
+                <observers>
+                    <gide_task_inject_jsonspinnet>
+                        <type>singleton</type>
+                        <class>gide_task/observer</class>
+                        <method>addJsonSnippet</method>
+                    </gide_task_inject_jsonspinnet>
+                </observers>
+            </controller_action_layout_generate_xml_before>
+
+        </events>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <gide_task>
+                    <file>gide_task.xml</file>
+                </gide_task>
+            </updates>
+        </layout>
+    </frontend>
+</config>

@@ -1,0 +1,6 @@
+<?php /** @var Gide_Task_Block_JsonSnippet $this */ ?>
+<?php if($this->getJsonSnippet()):?>
+    <script type="application/ld+json">
+        <?= $this->getJsonSnippet(); ?>
+    </script>
+<?php endif; ?>
