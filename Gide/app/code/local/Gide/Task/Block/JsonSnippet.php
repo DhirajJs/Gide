@@ -31,7 +31,7 @@ class Gide_Task_Block_JsonSnippet extends Mage_Core_Block_Template
 
         if ($snippet = $this->generateJson()) {
 
-            $jsonSnippet = Mage::helper('core')->jsonEncode($snippet);
+            $jsonSnippet = json_encode($snippet,JSON_UNESCAPED_SLASHES);
         }
 
         return $jsonSnippet;
@@ -169,7 +169,7 @@ class Gide_Task_Block_JsonSnippet extends Mage_Core_Block_Template
         } else {
             $price = $product->getFinalPrice();
         }
-        
+
         return $store->roundPrice($price);
     }
 }
