@@ -29,8 +29,9 @@ class Gide_Task_Block_JsonSnippet extends Mage_Core_Block_Template
     {
         $jsonSnippet = '';
 
-        if($snippet = $this->generateJson()) {
-            $jsonSnippet =  Mage::helper('core')->jsonEncode($snippet);
+        if ($snippet = $this->generateJson()) {
+
+            $jsonSnippet = Mage::helper('core')->jsonEncode($snippet);
         }
 
         return $jsonSnippet;
@@ -57,6 +58,7 @@ class Gide_Task_Block_JsonSnippet extends Mage_Core_Block_Template
             ];
         }
 
+
         if (!empty($images = $this->getProductImages($product))) {
             $jsonSnippetArray['image'] = $images;
         }
@@ -77,7 +79,7 @@ class Gide_Task_Block_JsonSnippet extends Mage_Core_Block_Template
 
         $galleryImages = $product->getMediaGalleryImages();
         $images = [];
-        if (!empty($galleryImages)) {
+        if (count($galleryImages->getItems())) {
             $imagesList = $galleryImages->getItems();
             foreach ($imagesList as $image) {
                 if ($image['url'] && !$image['disabled']) {
@@ -85,6 +87,21 @@ class Gide_Task_Block_JsonSnippet extends Mage_Core_Block_Template
                 }
             }
 
+        } else {
+            $imagesListArray = $product->getMediaGallery();
+            $imagesList = $imagesListArray['images'];
+
+            if (count($imagesList)) {
+                $mediaUrl = Mage::getBaseUrl('media');
+                foreach ($imagesList as $image) {
+
+                    if ($imageUrl = $image['file']) {
+
+                        $imageUrl = 'catalog/product' . $imageUrl;
+                        $images[] = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . $imageUrl;
+                    }
+                }
+            }
         }
 
         return $images;
@@ -142,7 +159,7 @@ class Gide_Task_Block_JsonSnippet extends Mage_Core_Block_Template
         if ($product->getTypeId() == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
             //here it's using the configurable price, maybe should loop in the simple product and get the lowest
             // maybe need to ask in the requirement
-            $price = $store->roundPrice($store->convertPrice($product->getPrice()));
+            $price = $store->convertPrice($product->getPrice());
         } elseif ($product->getTypeId() == 'bundle') {
 
             $priceModel = $product->getPriceModel();
@@ -152,7 +169,7 @@ class Gide_Task_Block_JsonSnippet extends Mage_Core_Block_Template
         } else {
             $price = $product->getFinalPrice();
         }
-
-        return $price;
+        
+        return $store->roundPrice($price);
     }
 }
